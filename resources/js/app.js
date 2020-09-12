@@ -20,6 +20,13 @@ window.Vue = require('vue');
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('main-app', require('./components/MainApp.vue').default);
+import Vuex from 'vuex'
+import storeVuex from './store/index'
+const axios = require('axios');
+
+Vue.use(Vuex)
+
+const store = new Vuex.Store(storeVuex)
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -29,4 +36,5 @@ Vue.component('main-app', require('./components/MainApp.vue').default);
 
 const app = new Vue({
     el: '#app',
+    store,
 });

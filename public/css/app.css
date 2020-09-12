@@ -10921,6 +10921,10 @@ a.text-dark:focus {
   padding: 20px;
 }
 
+.people-list .name {
+  color: white;
+}
+
 .people-list ul li {
   list-style: none;
 }
