@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Message;
 use App\User;
-use Illuminate\Http\Request;
+use Request;
 
 class MessageController extends Controller
 {
@@ -90,7 +90,25 @@ class MessageController extends Controller
 
     public function user_list()
     {
-        $users = User::latest()->get();
-        return response()->json($users, 200);
+        $users = User::latest()->where('id', '!=', auth()->user()->id)->get();
+        if (\Request::ajax()) {
+            return response()->json($users, 200);
+        }
+        return abort(404);
+    }
+
+    public function user_message($id)
+    {
+        // if (!\Request::ajax()) {
+        //     return abort(404);
+        // }
+        $messages = Message::where(function ($q) use ($id) {
+            $q->where('from', auth()->user()->id);
+            $q->where('to', $id);
+        })->orWhere(function ($q) use ($id) {
+            $q->where('from', $id);
+            $q->where('to', auth()->user()->id);
+        })->get();
+        return response()->json($messages, 200);
     }
 }

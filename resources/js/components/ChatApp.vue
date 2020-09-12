@@ -6,7 +6,12 @@
                 <i class="fa fa-search"></i>
             </div>
             <ul class="list">
-                <li class="clearfix" v-for="user in userList" :key="user.id">
+                <li
+                    @click.prevent="selectUser(user.id)"
+                    class="clearfix"
+                    v-for="user in userList"
+                    :key="user.id"
+                >
                     <div class="about">
                         <div class="name">{{ user.name }}</div>
                         <div class="status">
@@ -156,7 +161,11 @@ export default {
         }
     },
     created() {},
-    methods: {}
+    methods: {
+        selectUser(userId) {
+            this.$store.dispatch("userMessage", userId);
+        }
+    }
 };
 </script>
 <style></style>

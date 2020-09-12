@@ -2052,6 +2052,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {};
@@ -2065,7 +2070,11 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   created: function created() {},
-  methods: {}
+  methods: {
+    selectUser: function selectUser(userId) {
+      this.$store.dispatch("userMessage", userId);
+    }
+  }
 });
 
 /***/ }),
@@ -37684,13 +37693,26 @@ var render = function() {
         "ul",
         { staticClass: "list" },
         _vm._l(_vm.userList, function(user) {
-          return _c("li", { key: user.id, staticClass: "clearfix" }, [
-            _c("div", { staticClass: "about" }, [
-              _c("div", { staticClass: "name" }, [_vm._v(_vm._s(user.name))]),
-              _vm._v(" "),
-              _vm._m(1, true)
-            ])
-          ])
+          return _c(
+            "li",
+            {
+              key: user.id,
+              staticClass: "clearfix",
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                  return _vm.selectUser(user.id)
+                }
+              }
+            },
+            [
+              _c("div", { staticClass: "about" }, [
+                _c("div", { staticClass: "name" }, [_vm._v(_vm._s(user.name))]),
+                _vm._v(" "),
+                _vm._m(1, true)
+              ])
+            ]
+          )
         }),
         0
       )
@@ -51572,12 +51594,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: function state() {
     return {
-      userList: []
+      userList: [],
+      userMessage: []
     };
   },
   mutations: {
     userList: function userList(state, payload) {
       return state.userList = payload;
+    },
+    userMessage: function userMessage(state, payload) {
+      return state.userMessage = payload;
     }
   },
   actions: {
@@ -51585,11 +51611,19 @@ __webpack_require__.r(__webpack_exports__);
       axios.get('/userlist').then(function (response) {
         context.commit("userList", response.data);
       });
+    },
+    userMessage: function userMessage(context, payload) {
+      axios.get('/usermessage/' + payload).then(function (response) {
+        context.commit("userMessage", response.data);
+      });
     }
   },
   getters: {
     userList: function userList(state) {
       return state.userList;
+    },
+    userMessage: function userMessage(state) {
+      return state.userMessage;
     }
   }
 });
