@@ -1,18 +1,18 @@
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import url("https://fonts.googleapis.com/css?family=Nunito");
 
 // Variables
-@import 'variables';
+@import "variables";
 
 // Bootstrap
-@import '~bootstrap/scss/bootstrap';
+@import "~bootstrap/scss/bootstrap";
 
-@import url(https://fonts.googleapis.com/css?family=Lato:400,700);
+// @import url(https://fonts.googleapis.com/css?family=Lato:400, 700);
 
-$green: #86BB71;
-$blue: #94C2ED;
-$orange: #E38968;
-$gray: #92959E;
+$green: #86bb71;
+$blue: #94c2ed;
+$orange: #e38968;
+$gray: #92959e;
 
 *,
 *:before,
@@ -49,6 +49,7 @@ $gray: #92959E;
     ul {
         li {
             list-style: none;
+            cursor: pointer;
         }
     }
 
@@ -57,7 +58,7 @@ $gray: #92959E;
         border: none;
         padding: 14px;
         color: white;
-        background: #6A6C75;
+        background: #6a6c75;
         width: 90%;
         font-size: 14px;
     }
@@ -71,12 +72,8 @@ $gray: #92959E;
         padding: 20px;
         height: 770px;
 
-
-
-
         li {
             padding-bottom: 20px;
-            cursor: pointer;
         }
     }
 
@@ -96,13 +93,12 @@ $gray: #92959E;
     .status {
         color: $gray;
     }
-
 }
 
 .chat {
     width: 490px;
     float: left;
-    background: #F2F5F8;
+    background: #f2f5f8;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
 
@@ -133,7 +129,7 @@ $gray: #92959E;
 
         .fa-star {
             float: right;
-            color: #D8DADF;
+            color: #d8dadf;
             font-size: 20px;
             margin-top: 12px;
         }
@@ -197,7 +193,6 @@ $gray: #92959E;
                 left: 93%;
             }
         }
-
     }
 
     .chat-message {
@@ -211,7 +206,6 @@ $gray: #92959E;
             margin-bottom: 10px;
             border-radius: 5px;
             resize: none;
-
         }
 
         .fa-file-o,
@@ -219,7 +213,6 @@ $gray: #92959E;
             font-size: 16px;
             color: gray;
             cursor: pointer;
-
         }
 
         button {
@@ -230,7 +223,7 @@ $gray: #92959E;
             border: none;
             cursor: pointer;
             font-weight: bold;
-            background: #F2F5F8;
+            background: #f2f5f8;
 
             &:hover {
                 color: darken($blue, 7%);

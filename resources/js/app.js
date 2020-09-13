@@ -22,7 +22,13 @@ window.Vue = require('vue');
 Vue.component('main-app', require('./components/MainApp.vue').default);
 import Vuex from 'vuex'
 import storeVuex from './store/index'
+import filter from './filter'
 const axios = require('axios');
+
+// chat scroll
+import VueChatScroll from 'vue-chat-scroll'
+Vue.use(VueChatScroll)
+
 
 Vue.use(Vuex)
 
@@ -37,4 +43,5 @@ const store = new Vuex.Store(storeVuex)
 const app = new Vue({
     el: '#app',
     store,
+    filter
 });

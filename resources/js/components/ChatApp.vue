@@ -30,7 +30,9 @@
                 />
 
                 <div class="chat-about">
-                    <div class="chat-with">Chat with Vincent Porter</div>
+                    <div v-if="userMessage.user" class="chat-with">
+                        Chat with {{ userMessage.user.name }}
+                    </div>
                     <div class="chat-num-messages">
                         already 1 902 messages
                     </div>
@@ -39,24 +41,37 @@
             </div>
             <!-- end chat-header -->
 
-            <div class="chat-history">
+            <div class="chat-history" v-chat-scroll>
                 <ul>
-                    <li class="clearfix">
+                    <li
+                        class="clearfix"
+                        v-for="message in userMessage.messages"
+                        :key="message.id"
+                    >
                         <div class="message-data align-right">
-                            <span class="message-data-time"
-                                >10:10 AM, Today</span
-                            >
+                            <span class="message-data-time">{{
+                                message.created_at | timeformat
+                            }}</span>
                             &nbsp; &nbsp;
-                            <span class="message-data-name">Olia</span>
+                            <span class="message-data-name">
+                                {{ message.user.name }}
+                            </span>
                             <i class="fa fa-circle me"></i>
                         </div>
-                        <div class="message other-message float-right">
-                            Hi Vincent, how are you? How is the project coming
-                            along?
+                        <div
+                            :class="
+                                `message float-right ${
+                                    message.user.id == userMessage.user.id
+                                        ? 'other-message'
+                                        : 'my-message'
+                                }`
+                            "
+                        >
+                            {{ message.message }}
                         </div>
                     </li>
 
-                    <li>
+                    <!-- <li>
                         <div class="message-data">
                             <span class="message-data-name"
                                 ><i class="fa fa-circle online"></i>
@@ -70,66 +85,15 @@
                             Are we meeting today? Project has been already
                             finished and I have results to show you.
                         </div>
-                    </li>
-
-                    <li class="clearfix">
-                        <div class="message-data align-right">
-                            <span class="message-data-time"
-                                >10:14 AM, Today</span
-                            >
-                            &nbsp; &nbsp;
-                            <span class="message-data-name">Olia</span>
-                            <i class="fa fa-circle me"></i>
-                        </div>
-                        <div class="message other-message float-right">
-                            Well I am not sure. The rest of the team is not here
-                            yet. Maybe in an hour or so? Have you faced any
-                            problems at the last phase of the project?
-                        </div>
-                    </li>
-
-                    <li>
-                        <div class="message-data">
-                            <span class="message-data-name"
-                                ><i class="fa fa-circle online"></i>
-                                Vincent</span
-                            >
-                            <span class="message-data-time"
-                                >10:20 AM, Today</span
-                            >
-                        </div>
-                        <div class="message my-message">
-                            Actually everything was fine. I'm very excited to
-                            show this to our team.
-                        </div>
-                    </li>
-
-                    <li>
-                        <div class="message-data">
-                            <span class="message-data-name"
-                                ><i class="fa fa-circle online"></i>
-                                Vincent</span
-                            >
-                            <span class="message-data-time"
-                                >10:31 AM, Today</span
-                            >
-                        </div>
-                        <i class="fa fa-circle online"></i>
-                        <i
-                            class="fa fa-circle online"
-                            style="color: #AED2A6"
-                        ></i>
-                        <i
-                            class="fa fa-circle online"
-                            style="color:#DAE9DA"
-                        ></i>
-                    </li>
+                    </li> -->
                 </ul>
             </div>
             <!-- end chat-history -->
 
             <div class="chat-message clearfix">
                 <textarea
+                    @keydown.enter="sendMessage"
+                    v-model="message"
                     name="message-to-send"
                     id="message-to-send"
                     placeholder="Type your message"
@@ -150,7 +114,9 @@
 <script>
 export default {
     data() {
-        return {};
+        return {
+            message: ""
+        };
     },
     mounted() {
         this.$store.dispatch("userList");
@@ -158,14 +124,35 @@ export default {
     computed: {
         userList() {
             return this.$store.getters.userList;
+        },
+        userMessage() {
+            return this.$store.getters.userMessage;
         }
     },
     created() {},
     methods: {
         selectUser(userId) {
             this.$store.dispatch("userMessage", userId);
+        },
+        sendMessage(e) {
+            e.preventDefault();
+            if (this.message != "") {
+                axios
+                    .post("/sendmessage", {
+                        message: this.message,
+                        user_id: this.userMessage.user.id
+                    })
+                    .then(response => {
+                        this.selectUser(this.userMessage.user.id);
+                    });
+                this.message = "";
+            }
         }
     }
 };
 </script>
-<style></style>
+<style>
+.people-list ul {
+    overflow-y: scroll;
+}
+</style>

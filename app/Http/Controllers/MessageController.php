@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Message;
 use App\User;
-use Request;
+use Symfony\Component\HttpFoundation\Request;
 
 class MessageController extends Controller
 {
@@ -99,16 +99,43 @@ class MessageController extends Controller
 
     public function user_message($id)
     {
-        // if (!\Request::ajax()) {
-        //     return abort(404);
-        // }
+        if (!\Request::ajax()) {
+            return abort(404);
+        }
+        $user = User::findOrFail($id);
         $messages = Message::where(function ($q) use ($id) {
             $q->where('from', auth()->user()->id);
             $q->where('to', $id);
+            $q->where('type', 0);
         })->orWhere(function ($q) use ($id) {
             $q->where('from', $id);
             $q->where('to', auth()->user()->id);
-        })->get();
-        return response()->json($messages, 200);
+            $q->where('type', 1);
+        })->with('user')->get();
+        return response()->json([
+            'messages' => $messages,
+            'user' => $user
+        ], 200);
+    }
+
+    public function send_message(Request $request)
+    {
+        if (!$request->ajax()) {
+            return abort(404);
+        }
+        $message = Message::create([
+            'message' => $request->message,
+            'from' => auth()->user()->id,
+            'to' => $request->user_id,
+            'type' => 0
+        ]);
+
+        $message = Message::create([
+            'message' => $request->message,
+            'from' => auth()->user()->id,
+            'to' => $request->user_id,
+            'type' => 1
+        ]);
+        return response()->json($message, 201);
     }
 }
