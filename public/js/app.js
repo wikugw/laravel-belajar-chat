@@ -2021,6 +2021,51 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2057,6 +2102,20 @@ __webpack_require__.r(__webpack_exports__);
         });
         this.message = "";
       }
+    },
+    deleteSingleMessage: function deleteSingleMessage(messageId) {
+      var _this2 = this;
+
+      axios.get("/deletesinglemessage/".concat(messageId)).then(function (response) {
+        _this2.selectUser(_this2.userMessage.user.id);
+      });
+    },
+    deleteAllMessages: function deleteAllMessages() {
+      var _this3 = this;
+
+      axios.get("/deleteallmessage/".concat(this.userMessage.user.id)).then(function (response) {
+        _this3.selectUser(_this3.userMessage.user.id);
+      });
     }
   }
 });
@@ -59661,7 +59720,43 @@ var render = function() {
           ])
         ]),
         _vm._v(" "),
-        _c("i", { staticClass: "fa fa-star" })
+        _c("i", { staticClass: "fa fa-star" }),
+        _vm._v(" "),
+        _c("ul", { staticClass: "nav nav-tabs" }, [
+          _c("li", { staticClass: "nav-item dropdown" }, [
+            _c(
+              "a",
+              {
+                staticClass: "nav-link dropdown-toggle",
+                attrs: {
+                  href: "",
+                  "data-toggle": "dropdown",
+                  role: "button",
+                  "aria-haspopup": "true",
+                  "aria-expanded": "false"
+                }
+              },
+              [_vm._v("...")]
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "dropdown-menu" }, [
+              _c(
+                "a",
+                {
+                  staticClass: "dropdown-item",
+                  attrs: { href: "" },
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.deleteAllMessages($event)
+                    }
+                  }
+                },
+                [_vm._v("Delete All Messages")]
+              )
+            ])
+          ])
+        ])
       ]),
       _vm._v(" "),
       _c(
@@ -59690,7 +59785,43 @@ var render = function() {
                     )
                   ]),
                   _vm._v(" "),
-                  _c("i", { staticClass: "fa fa-circle me" })
+                  _c("i", { staticClass: "fa fa-circle me" }),
+                  _vm._v(" "),
+                  _c("ul", { staticClass: "nav nav-tabs" }, [
+                    _c("li", { staticClass: "nav-item dropdown" }, [
+                      _c(
+                        "a",
+                        {
+                          staticClass: "nav-link dropdown-toggle",
+                          attrs: {
+                            href: "",
+                            "data-toggle": "dropdown",
+                            role: "button",
+                            "aria-haspopup": "true",
+                            "aria-expanded": "false"
+                          }
+                        },
+                        [_vm._v("...")]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "dropdown-menu" }, [
+                        _c(
+                          "a",
+                          {
+                            staticClass: "dropdown-item",
+                            attrs: { href: "" },
+                            on: {
+                              click: function($event) {
+                                $event.preventDefault()
+                                return _vm.deleteSingleMessage(message.id)
+                              }
+                            }
+                          },
+                          [_vm._v("Delete")]
+                        )
+                      ])
+                    ])
+                  ])
                 ]),
                 _vm._v(" "),
                 _c(

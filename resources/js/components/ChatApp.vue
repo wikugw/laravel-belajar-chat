@@ -33,11 +33,33 @@
                     <div v-if="userMessage.user" class="chat-with">
                         Chat with {{ userMessage.user.name }}
                     </div>
+
                     <div class="chat-num-messages">
                         already 1 902 messages
                     </div>
                 </div>
                 <i class="fa fa-star"></i>
+                <ul class="nav nav-tabs">
+                    <li class="nav-item dropdown">
+                        <a
+                            href=""
+                            class="nav-link dropdown-toggle"
+                            data-toggle="dropdown"
+                            role="button"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                            >...</a
+                        >
+                        <div class="dropdown-menu">
+                            <a
+                                @click.prevent="deleteAllMessages"
+                                href=""
+                                class="dropdown-item"
+                                >Delete All Messages</a
+                            >
+                        </div>
+                    </li>
+                </ul>
             </div>
             <!-- end chat-header -->
 
@@ -57,6 +79,29 @@
                                 {{ message.user.name }}
                             </span>
                             <i class="fa fa-circle me"></i>
+                            <ul class="nav nav-tabs">
+                                <li class="nav-item dropdown">
+                                    <a
+                                        href=""
+                                        class="nav-link dropdown-toggle"
+                                        data-toggle="dropdown"
+                                        role="button"
+                                        aria-haspopup="true"
+                                        aria-expanded="false"
+                                        >...</a
+                                    >
+                                    <div class="dropdown-menu">
+                                        <a
+                                            @click.prevent="
+                                                deleteSingleMessage(message.id)
+                                            "
+                                            href=""
+                                            class="dropdown-item"
+                                            >Delete</a
+                                        >
+                                    </div>
+                                </li>
+                            </ul>
                         </div>
                         <div
                             :class="
@@ -147,6 +192,18 @@ export default {
                     });
                 this.message = "";
             }
+        },
+        deleteSingleMessage(messageId) {
+            axios.get(`/deletesinglemessage/${messageId}`).then(response => {
+                this.selectUser(this.userMessage.user.id);
+            });
+        },
+        deleteAllMessages() {
+            axios
+                .get(`/deleteallmessage/${this.userMessage.user.id}`)
+                .then(response => {
+                    this.selectUser(this.userMessage.user.id);
+                });
         }
     }
 };
